@@ -1,26 +1,22 @@
-function palinPerm(word, str) {
+function palinPerm(word) {
+  if (word.length === 1 || word.length === 2) return true;
   const letters = {};
-
+  let oddLetters = 0;
   for (letter of word) {
     letter = letter.toLowerCase();
-    letters[letter] = letters[letter] + 1 || 1;
+    if (letter !== ' ') {
+      letters[letter] = letters[letter] + 1 || 1;
+    }
+
+    // if there is more than 1 odd letters - false
+    Object.values(letters).forEach((letterCount) => {
+      if (letterCount % 2 !== 0) {
+        oddLetters++;
+      }
+    });
   }
-
-  for (letter of str) {
-    letter = letter.toLowerCase();
-
-    if (!Object.keys(letters).includes(letter)) return false;
-    letters[letter] = letters[letter] - 1;
-  }
-
-  console.log(letters);
-
-  return (
-    Object.values(letters).reduce(
-      (accumulator, currentValue) => accumulator + currentValue
-    ) === 0
-  );
+  return oddLetters === 1;
 }
 
-console.log(palinPerm('Tact Coa', 'taco cat'), 'true');
-console.log(palinPerm('Tact Coa', 'taco boa'), 'false');
+console.log(palinPerm('Tact Coa'), 'true');
+console.log(palinPerm('Tact boa'), 'false');
